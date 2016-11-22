@@ -4,7 +4,7 @@ A simple REST API for the popular gift exchanging game "Secret Santa".
 + Provide a list of people, and get a list of randomized pairings back.
 + Supports disallowed pairings in order to prevent certain people from getting paired.
 + Can send customizable emails to each person in the list.
-### Installation
+###Installation
 + Run `npm install` to install dependencies
 + Enter your MailGun api key and domain in `config.js`. (If you don't have an account, [MailGun](https://mailgun.com) is free and easy to set up!)
 + Start the app on `localhost:3000` by running `npm start`
