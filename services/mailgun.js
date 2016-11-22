@@ -7,17 +7,19 @@ module.exports = (toAddress, matchName, subject, message) => {
     let url = `https://api.mailgun.net/v3/${config.mailgunDomain}/messages`;
 
     let handleResponse= (err, httpResonse, body) => {
-        if (err)
+        if (err) {
             console.error(err);
-        else 
+        } else {
             console.log(body);
+        }
     };
 
     request.post(url, handleResponse).form({
         from: 'Secret Santa <secretsanta@mattgmade.me>',
         to: toAddress,
-        subject: subject || 'Your "Secret Santa" match is...',
-        text: message || `Your Secret Santa pairing is ${matchName}! Don\'t tell anyone!`
+        subject: subject || 'Your "Secret Santa" match',
+        text: message.replace('{{name}}', matchName) || `Your Secret Santa match is ${matchName}!`,
+        'o:tracking-opens': 'yes'
     }).auth(config.mailgunUsername, config.mailgunPassword);
 };
 
