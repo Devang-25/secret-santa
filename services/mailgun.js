@@ -9,6 +9,7 @@ module.exports = (toAddress, matchName, subject, message) => {
     let handleResponse= (err, httpResonse, body) => {
         if (err) {
             console.error(err);
+            throw err;
         } else {
             console.log(body);
         }

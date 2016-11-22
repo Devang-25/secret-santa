@@ -11,14 +11,20 @@ const app = express();
 
 app.post('/', ensureListValid, (req, res, next) => {
     let list = req.body.list;
-    let retryCt = req.body.retryCount || 100;
+    let retryCt = Math.min(req.body.retryCount || 100, 10000);
 
     let matchResult = getMatchResult(list, retryCt);
 
     if (matchResult) {
         matchResult.forEach(person => {
             if (person.email) {
-                sendMail(person.email, person.match, req.body.subject, req.body.message);
+                try {
+                    sendMail(person.email, person.match, req.body.subject, req.body.message);
+                }
+                catch(err) {
+                    res.status(503);
+                    return res.send('An error occurred when attempting to send the emails.');
+                }
             }
         });
         
