@@ -1,18 +1,17 @@
 'use strict';
 
-var express = require('express');
-var app = express();
-var MatchService = require('../../services/match');
-var ensureListValid = require('../../middleware/list-valid');
-var allow = require('../../middleware/options');
+const getMatchResult = require('../../services/match');
+const ensureListValid = require('../../middleware/list-valid');
+const allow = require('../../middleware/options');
+const express = require('express');
 
-app.post('/', ensureListValid, function(req, res, next) {
+const app = express();
+
+app.post('/', ensureListValid, (req, res, next) => {
     let list = req.body.list;
     let retryCt = req.body.retryCount || 100;
-    
-
-    let matchService = new MatchService(retryCt);
-    let matchResult = matchService.getMatchResult(list);
+  
+    let matchResult = getMatchResult(list, retryCt);
 
     if (matchResult) {
       res.setHeader('Content-Type', 'application/json');
@@ -23,7 +22,7 @@ app.post('/', ensureListValid, function(req, res, next) {
     }
 });
 
-app.options('/', allow(['GET', 'POST', 'OPTIONS']), function(req, res, next) {
+app.options('/', allow(['GET', 'POST', 'OPTIONS']), (req, res, next) => {
   res.send(JSON.stringify({
     '/match': {
       'POST': {

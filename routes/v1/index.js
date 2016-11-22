@@ -1,8 +1,11 @@
-var express = require('express');
-var app = express();
-var allow = require('../../middleware/options');
+'use strict';
 
-app.options('/', allow(['OPTIONS']), function(req, res) {
+const express = require('express');
+const allow = require('../../middleware/options');
+
+const app = express();
+
+app.options('/', allow(['OPTIONS']), (req, res) => {
     res.send(JSON.stringify({
         "/": {
             "GET": {

@@ -3,7 +3,7 @@
 const request = require('request');
 const config = require('../config');
 
-module.exports = function (toAddress, matchName, subject, message) {
+module.exports = (toAddress, matchName, subject, message) => {
     let url = `https://api.mailgun.net/v3/${config.mailgunDomain}/messages`;
 
     let handleResponse= (err, httpResonse, body) => {
