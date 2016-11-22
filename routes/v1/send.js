@@ -46,7 +46,7 @@ app.options('/', allow(['POST']), (req, res, next) => {
                 },
                 'example': {
                     'subject': 'Your Secret Santa victim awaits...',
-                    'message': 'Your match is {{name}}! Click {{here}}',
+                    'message': 'Your match is {{name}}! The price limit for gifts is $50.',
                     'list': [{
                         'name': 'Matt',
                         'email': 'matt@abc123.com',
