@@ -10,13 +10,13 @@ module.exports = (list, retryCt) => {
 };
 
 function _tryGetMatchResult(list) {
-    let matches = [];
+    let unmatched = list.filter(p => !p.match);
 
-    list.forEach(person => {
+    unmatched.forEach(person => {
         let possibleMatches = list.filter(otherPerson =>
             _isNotMe(person, otherPerson)
             && _isNotInMyExclusionList(person, otherPerson)
-            && _isNotAlreadyAssignedToSomoneElse(otherPerson, matches));
+            && _isNotAlreadyAssignedToSomoneElse(otherPerson, list));
 
         if (possibleMatches.length === 0) {
             throw 'Match failed';
@@ -25,10 +25,10 @@ function _tryGetMatchResult(list) {
         let randomIndex = Math.floor(Math.random() * possibleMatches.length);
         let matchedPerson = possibleMatches[randomIndex];
 
-        matches.push(Object.assign(person, { match: matchedPerson.name }));
+        person.match = matchedPerson.name;
     });
 
-    return matches
+    return list;
 }
 
 function _isNotMe(me, person) {

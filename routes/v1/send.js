@@ -16,18 +16,24 @@ app.post('/', ensureListValid, (req, res, next) => {
     let matchResult = getMatchResult(list, retryCt);
 
     if (matchResult) {
+        let error = false;
         matchResult.forEach(person => {
             if (person.email) {
                 try {
                     sendMail(person.email, person.match, req.body.subject, req.body.message);
                 }
                 catch(err) {
-                    res.status(503);
-                    return res.send('An error occurred when attempting to send the emails.');
+                    error = true;
+                    return;
                 }
             }
         });
-        
+
+        if (error) {
+            res.status(503);
+            return res.send('An error occurred when attempting to send the emails.');
+        }
+
         res.setHeader('Content-Type', 'application/json');
         res.send('Emails sent successfully.');
     } else {

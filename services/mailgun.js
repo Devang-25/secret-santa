@@ -6,9 +6,8 @@ const config = require('../config');
 module.exports = (toAddress, matchName, subject, message) => {
     let url = `https://api.mailgun.net/v3/${config.mailgunDomain}/messages`;
 
-    let handleResponse= (err, httpResonse, body) => {
+    let handleResponse= (err, httpResponse, body) => {
         if (err) {
-            console.error(err);
             throw err;
         } else {
             console.log(body);
