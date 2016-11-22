@@ -1,5 +1,7 @@
 var express = require('express');
 var app = express();
+var ensureListValid = require('../../middleware/list-valid');
+var allow = require('../../middleware/options');
 
 // Get all lists overview
 app.get('/', (req, res, next) => {
@@ -39,9 +41,7 @@ app.delete('/:id', function(req, res, next) {
 });
 
 //Update/Replace list
-app.options('/', function(req, res, next) {
-  res.setHeader('Content-Type', 'application/json');
-  res.setHeader('Allow', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
+app.options('/', allow(['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']), function(req, res, next) {
   res.send(JSON.stringify({
     '/list': {
       'GET': { description: 'Get an overview of all lists'},
@@ -53,7 +53,7 @@ app.options('/', function(req, res, next) {
       'PATCH': { description: 'Partially update a list' },
       'DELETE': { description: 'Delete a list' }
       }
-    }));
+    }), null, 3);
 });
 
 module.exports = app;

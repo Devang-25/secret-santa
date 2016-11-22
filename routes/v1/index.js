@@ -1,10 +1,8 @@
 var express = require('express');
 var app = express();
+var allow = require('../../middleware/options');
 
-app.options('/', function(req, res) {
-    res.setHeader('Content-Type', 'application/json');
-    res.setHeader('Allow', 'OPTIONS');
-
+app.options('/', allow(['OPTIONS']), function(req, res) {
     res.send(JSON.stringify({
         "/": {
             "GET": {

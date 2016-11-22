@@ -3,28 +3,13 @@
 var express = require('express');
 var app = express();
 var MatchService = require('../../services/match');
+var ensureListValid = require('../../middleware/list-valid');
+var allow = require('../../middleware/options');
 
-app.post('/', function(req, res, next) {
+app.post('/', ensureListValid, function(req, res, next) {
     let list = req.body.list;
     let retryCt = req.body.retryCount || 100;
-
-    if (!list) {
-      res.status(400);
-      return res.send('"list" array is required.');
-    }
-
-    if (list.length <= 1) {
-      res.status(400);
-      return res.send('"list" must contain two or more people.');
-    }
-
-    let uniqueNames = list.map(p => p.name)
-      .filter((value, index, self) => self.indexOf(value) === index);
-
-    if (uniqueNames.length < list.length) {
-      res.status(400);
-      return res.send('Each name must be unique. How else will people know who to buy gifts for?');
-    }
+    
 
     let matchService = new MatchService(retryCt);
     let matchResult = matchService.getMatchResult(list);
@@ -38,9 +23,7 @@ app.post('/', function(req, res, next) {
     }
 });
 
-app.options('/', function(req, res, next) {
-  res.setHeader('Content-Type', 'application/json');
-  res.setHeader('Allow', 'GET, POST, OPTIONS');
+app.options('/', allow(['GET', 'POST', 'OPTIONS']), function(req, res, next) {
   res.send(JSON.stringify({
     '/match': {
       'POST': {
