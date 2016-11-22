@@ -16,6 +16,10 @@ A simple REST API for the popular gift exchanging game "Secret Santa".
 ##Base URL
 The base url is the API version, currently `/v1`
 
+**OPTIONS**
+----
+An OPTIONS request can be sent to **all endpoints** for detailed documentation of the endpoint in JSON.
+
 **POST: /match**
 ----
   _Generates and returns a random match result. Does not send emails. This can be used to test your list before calling `/send`._
