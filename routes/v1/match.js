@@ -15,7 +15,7 @@ app.post('/', ensureListValid, (req, res, next) => {
     let matchResult = getMatchResult(list, retryCt);
 
     if (matchResult) {
-      res.locals.data = matchResult;
+      res.locals.data = { list: matchResult };
       return next();
     }
 

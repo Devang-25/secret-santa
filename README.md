@@ -50,17 +50,19 @@ An OPTIONS request can be sent to **all endpoints** for detailed documentation o
   **Code:** 200 <br />
   **Content:** The response will return the provided list with a new `match` field representing the giftee.
     ~~~~
-    [{
-        "name": "Jack",
-        "exclusions": ["Jill"],
-        "match": "Fred"
-     }, {
-        "name": "Jill",
-        "match": "Jack"
-     }, {
-        "name": "Fred",
-        "match": "Jill"
-    }]
+    {
+        list: [{
+            "name": "Jack",
+            "exclusions": ["Jill"],
+            "match": "Fred"
+         }, {
+            "name": "Jill",
+            "match": "Jack"
+         }, {
+            "name": "Fred",
+            "match": "Jill"
+        }]
+    }
     ~~~~
 
 * **Error Responses:**

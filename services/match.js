@@ -3,7 +3,8 @@
 module.exports = (list, retryCt) => {
     for (let i = 0; i < retryCt; i++) {
        try {
-           return _tryGetMatchResult(list);
+           let clone = JSON.parse(JSON.stringify(list));
+           return _tryGetMatchResult(clone);
        }
        catch (err) {}
     }
