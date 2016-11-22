@@ -4,6 +4,7 @@ const getMatchResult = require('../../services/match');
 const sendMail = require('../../services/mailgun');
 const ensureListValid = require('../../middleware/list-valid');
 const allow = require('../../middleware/options');
+const json = require('../../middleware/format-json');
 const express = require('express');
 
 const app = express();
@@ -29,8 +30,11 @@ app.post('/', ensureListValid, (req, res, next) => {
     }
 });
 
-app.options('/', allow(['POST']), (req, res) => {
-    res.send()
-});
+app.options('/', allow(['POST']), (req, res, next) => {
+    res.locals.data = {
+        
+    };
+    next();
+}, json);
 
 module.exports = app;

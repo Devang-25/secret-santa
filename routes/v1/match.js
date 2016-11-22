@@ -3,6 +3,7 @@
 const getMatchResult = require('../../services/match');
 const ensureListValid = require('../../middleware/list-valid');
 const allow = require('../../middleware/options');
+const json = require('../../middleware/format-json');
 const express = require('express');
 
 const app = express();
@@ -10,20 +11,20 @@ const app = express();
 app.post('/', ensureListValid, (req, res, next) => {
     let list = req.body.list;
     let retryCt = req.body.retryCount || 100;
-  
+
     let matchResult = getMatchResult(list, retryCt);
 
     if (matchResult) {
-      res.setHeader('Content-Type', 'application/json');
-      res.send(JSON.stringify(matchResult, null, 3));
-    } else {
-      res.status(409);
-      res.send(`Tried ${retryCt} times, could not find a solution where each person has a match.`);
+      res.locals.data = matchResult;
+      return next();
     }
-});
+
+    res.status(409);
+    res.send(`Tried ${retryCt} times, could not find a solution where each person has a match.`);
+}, json);
 
 app.options('/', allow(['GET', 'POST', 'OPTIONS']), (req, res, next) => {
-  res.send(JSON.stringify({
+  res.locals.data = {
     '/match': {
       'POST': {
         'description': 'Return a randomized Secret Santa match result for the provided list.',
@@ -56,7 +57,8 @@ app.options('/', allow(['GET', 'POST', 'OPTIONS']), (req, res, next) => {
         }
       }
     }
-  }, null, 3));
-});
+  };
+  next();
+}, json);
 
 module.exports = app;
