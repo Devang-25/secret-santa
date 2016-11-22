@@ -3,7 +3,9 @@
 var express = require('express');
 var app = express();
 var MatchService = require('../../services/match');
+var sendMail = require('../../services/mailgun');
 var ensureListValid = require('../../middleware/list-valid');
+var allow = require('../../middleware/options');
 
 app.post('/', ensureListValid, function(req, res, next) {
     let list = req.body.list;
@@ -14,19 +16,21 @@ app.post('/', ensureListValid, function(req, res, next) {
 
     if (matchResult) {
         matchResult.forEach(person => {
-           //send email 
+            if (person.email) {
+                sendMail(person.email, person.match);
+            }
         });
         
         res.setHeader('Content-Type', 'application/json');
-        res.send(JSON.stringify(matchResult, null, 3));
+        res.send('Emails sent successfully.');
     } else {
         res.status(409);
         res.send(`Tried ${retryCt} times, could not find a solution where each person has a match.`);
     }
 });
 
-app.options('/', function(req, res) {
-    
+app.options('/', allow(['POST']), function(req, res) {
+    res.send()
 });
 
 module.exports = app;
