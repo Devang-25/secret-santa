@@ -1,6 +1,8 @@
 # Secret Santa as a Service
 A simple REST API for the popular gift exchanging game "Secret Santa".
 
+**Live Demo**: [secretsanta.mattgmade.me](http://secretsanta.mattgmade.me)
+
 ###Features
 + Provide a list of people, and get a list of randomized pairings back.
 + Supports disallowed pairings in order to prevent certain people from getting paired.
