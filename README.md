@@ -78,7 +78,7 @@ An OPTIONS request can be sent to **all endpoints** for detailed documentation o
 ----
   _Sends emails to each person in the list, generating a random match if one is not provided._
 
-  **_Note: a `/match` response can be fed into the `list` of this request, but it is not necessary if you don't want to see the result before sending._**
+  **_Note: a `/match` response can be fed into the `list` of this request, but it is not necessary to call `/match` first if you don't want to see the result before sending._**
 * **Request parameters**
     + `list`: an array of people _Note: the response of a `/match` call will be a valid value for this parameter._
         + `name`: The name of the person. Required.
