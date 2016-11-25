@@ -29,6 +29,7 @@ An OPTIONS request can be sent to **all endpoints** for detailed documentation o
         + `name`: The name of the person. Required.
         + `email`: (Optional) The email address for this person.
         + `exclusions`: (Optional) An array of names representing people that should be ignored when assigning a match to this person.
+        + `match`: (Optional) A name representing a preselected match for this person.
     + `retryCount`: number of times to attempt to match. Defaults to 100. _Note: You should not have to change this unless you have large lists with complex exclusion rules_
 * **Example Call:**
     ~~~~
