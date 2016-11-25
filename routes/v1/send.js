@@ -33,8 +33,7 @@ app.post('/', ensureListValid, (req, res, next) => {
             res.status(503);
             return res.send('An error occurred when attempting to send the emails.');
         }
-
-        res.setHeader('Content-Type', 'application/json');
+        
         res.send('Emails sent successfully.');
     } else {
         res.status(409);
